@@ -19,6 +19,7 @@ function useTimes(sortBy = 'TIME_ASC') {
 			.firestore()
 			.collection('times')
 			.orderBy(SORT_OPTIONS[sortBy].column, SORT_OPTIONS[sortBy].direction)
+			// this orders the response data by the current sortBy state from SORT_OPTIONS
 			.onSnapshot((snapshot) => {
 				const newTimes = snapshot.docs.map((doc) => ({
 					id: doc.id,
