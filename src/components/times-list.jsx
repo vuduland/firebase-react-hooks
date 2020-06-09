@@ -10,8 +10,12 @@ function useTimes() {
 			.firestore()
 			.collection('times')
 			.onSnapshot((snapshot) => {
-				debugger;
-				return snapshot; // inspect page --> Sources --> open times-list from left side 3 dots --> type in snapshot, snapshot.docs[0].id, or snapshot.docs[0].data() to get information about what is in the database
+				const newTimes = snapshot.docs.map((doc) => ({
+					id: doc.id,
+					...doc.data(), // spread operator merges doc.id with doc.data
+				}));
+
+				setTimes(newTimes);
 			});
 	}, []);
 	return times;
@@ -34,30 +38,14 @@ const TimesList = () => {
 				</select>
 			</div>
 			<ol>
-				<li>
-					<div className='time-entry'>
-						My Amazing Entry Title
-						<code className='time'> 18 seconds</code>
-					</div>
-				</li>
-				<li>
-					<div className='time-entry'>
-						My Amazing Entry Title
-						<code className='time'> 18 seconds</code>
-					</div>
-				</li>
-				<li>
-					<div className='time-entry'>
-						My Amazing Entry Title
-						<code className='time'> 18 seconds</code>
-					</div>
-				</li>
-				<li>
-					<div className='time-entry'>
-						My Amazing Entry Title
-						<code className='time'> 18 seconds</code>
-					</div>
-				</li>
+				{times.map((time) => (
+					<li>
+						<div className='time-entry'>
+							{time.title}
+							<code className='time'>{time.time_seconds} seconds</code>
+						</div>
+					</li>
+				))}
 			</ol>
 		</div>
 	);
