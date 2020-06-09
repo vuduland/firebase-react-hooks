@@ -39,7 +39,7 @@ const TimesList = () => {
 			</div>
 			<ol>
 				{times.map((time) => (
-					<li>
+					<li key={time.id}>
 						<div className='time-entry'>
 							{time.title}
 							<code className='time'>{time.time_seconds} seconds</code>
