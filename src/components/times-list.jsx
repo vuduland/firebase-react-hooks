@@ -1,6 +1,25 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+
+import firebase from '../firebase';
+
+function useTimes() {
+	const [times, setTimes] = useState([]);
+
+	useEffect(() => {
+		firebase
+			.firestore()
+			.collection('times')
+			.onSnapshot((snapshot) => {
+				debugger;
+				return snapshot; // inspect page --> Sources --> open times-list from left side 3 dots --> type in snapshot, snapshot.docs[0].id, or snapshot.docs[0].data() to get information about what is in the database
+			});
+	}, []);
+	return times;
+}
 
 const TimesList = () => {
+	const times = useTimes();
+
 	return (
 		<div>
 			<h2>Times List</h2>
